@@ -6,19 +6,20 @@ using UnityEngine;
 
 public class Position {
 	public int timestamp;
-	public string objectName;
+	public string name;
 	public Vector3 position;
 }
 
 public class CsvFilePositionHandler : PositionHandler {
-	private List<Position> positions;
+	private Dictionary<string, List<Position>> posDict;
 
 	public CsvFilePositionHandler (string filename) {
+		posDict = new Dictionary<string, List<Position>>();
+
         string[] lines = System.IO.File.ReadAllLines(filename);
-		positions = new List<Position>();
         foreach (string line in lines) {
             //Debug.Log(line);
-            positions.Add(parseLine(line));
+			addPosition(parseLine(line));
         }
 	}
 
@@ -28,10 +29,20 @@ public class CsvFilePositionHandler : PositionHandler {
 		Position pos = new Position();
 		string[] words = line.Split(delimiterChars);
 		pos.timestamp = int.Parse(words[0]);
-		pos.objectName = string.Copy(words[1]);
+		pos.name = string.Copy(words[1]);
 		pos.position = new Vector3(float.Parse(words[2]), 0, float.Parse(words[3]));
 		return pos;
     }
+
+	private void addPosition(Position pos)
+	{
+		if (!posDict.ContainsKey(pos.name)) {
+			posDict.Add(pos.name, new List<Position>());
+		}
+
+		posDict[pos.name].Add(pos);
+	}
+
 	public override void UpdatePositions(MovingObject[] objects) {
 		foreach (MovingObject obj in objects) {
 			obj.SetPosition(getCurrent(obj.GetName()));
@@ -42,16 +53,21 @@ public class CsvFilePositionHandler : PositionHandler {
 		int currTime = (int) (Time.time * 1000.0f);
 		Position bestPos = null;
 
-		foreach	(Position pos in positions) {
-			if (pos.objectName == name && pos.timestamp <= currTime) {
-				if (bestPos != null) {
-					if (pos.timestamp >= bestPos.timestamp)
-						bestPos = pos;
+		if (!posDict.ContainsKey(name))
+			return new Vector3();
+		
+		foreach	(Position pos in posDict[name]) {
+			if (pos.timestamp <= currTime) {
+				if (bestPos != null && pos.timestamp >= bestPos.timestamp) {
+					bestPos = pos;
 				} else {
 					bestPos = pos;
 				}
 			}
 		}
+
+		if (bestPos == null)
+			return new Vector3();
 		return bestPos.position;
 	}
 }
