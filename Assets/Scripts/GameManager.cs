@@ -22,15 +22,16 @@ public class GameManager : MonoBehaviour {
 
 		// setup
 		ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        ball.transform.position = new Vector3(0, 0.5f, 0);
+        ball.transform.position = new Vector3(0, 0.11f, 0);
+        ball.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
 		positions = new Vector3[10000];
 		positions[0].x = 0;
-		positions[0].y = 0.5f;
+		positions[0].y = 0.11f;
 		positions[0].z = 0;
 		for (i = 1; i < positions.Length; i++) {
 			positions[i].x = positions[i-1].x + Random.Range(-0.1f ,0.2f);
-			positions[i].y = 0.5f;
+			positions[i].y = 0.11f;
 			positions[i].z = positions[i-1].z + Random.Range(-0.1f ,0.2f);
 		}
 		i = 0;
