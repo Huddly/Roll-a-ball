@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Random = UnityEngine.Random;      //Tells Random to use the Unity Engine random number generator.
+
 public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
+	GameObject ball;
+	Vector3[] positions;
+	int i;
 
 	// Use this for initialization
 	void Start () {
@@ -15,11 +20,26 @@ public class GameManager : MonoBehaviour {
 
 		DontDestroyOnLoad(gameObject);
 
-		// setup    		
+		// setup
+		ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        ball.transform.position = new Vector3(0, 0.5f, 0);
+
+		positions = new Vector3[10000];
+		positions[0].x = 0;
+		positions[0].y = 0.5f;
+		positions[0].z = 0;
+		for (i = 1; i < positions.Length; i++) {
+			positions[i].x = positions[i-1].x + Random.Range(-0.1f ,0.2f);
+			positions[i].y = 0.5f;
+			positions[i].z = positions[i-1].z + Random.Range(-0.1f ,0.2f);
+		}
+		i = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		// update
+		if (i < positions.Length) {
+			ball.transform.position = positions[i++];
+		}
 	}
 }
