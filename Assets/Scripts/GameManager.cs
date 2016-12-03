@@ -31,6 +31,6 @@ public class GameManager : MonoBehaviour {
 
 	void SetupObjects() {
 		objects = new MovingObject[1];
-		objects[0] = new BallObject();
+		objects[0] = new BallObject("ball1");
 	}
 }
