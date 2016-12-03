@@ -11,6 +11,9 @@ public abstract class MovingObject
 		obj.transform.position = targetPos;
 	}
 
+	public Vector3 GetPosition () {
+		return obj.transform.position;
+	}
 	public void SetPosition (Vector3 target) {
 		targetPos = target;
 	}
