@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;      //Tells Random to use the Unity Engine r
 
 public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
-	GameObject ball;
+	MovingObject[] objects;
 	Vector3[] positions;
 	int i;
 
@@ -19,11 +19,23 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
 
 		DontDestroyOnLoad(gameObject);
+		SetupObjects();
+	}
 
-		// setup
-		ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        ball.transform.position = new Vector3(0, 0.11f, 0);
-        ball.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+	// Update is called once per frame
+	void Update () {
+		if (i < positions.Length) {
+			objects[0].SetPosition(positions[i++]);
+
+			foreach (MovingObject obj in objects) {
+				obj.Update();
+			}
+		}
+	}
+
+	void SetupObjects() {
+		objects = new MovingObject[1];
+		objects[0] = new MovingObject();
 
 		positions = new Vector3[10000];
 		positions[0].x = 0;
@@ -35,12 +47,5 @@ public class GameManager : MonoBehaviour {
 			positions[i].z = positions[i-1].z + Random.Range(-0.1f ,0.2f);
 		}
 		i = 0;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (i < positions.Length) {
-			ball.transform.position = positions[i++];
-		}
 	}
 }
