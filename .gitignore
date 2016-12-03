@@ -12,12 +12,12 @@ obj/
 *.svd
 *.userprefs
 /*.csproj
-  *.pidb
-  *.suo
-  /*.sln
-  *.user
-  *.unityproj
-  *.booproj
+*.pidb
+*.suo
+/*.sln
+*.user
+*.unityproj
+*.booproj
 
 # ============ #
 # OS generated #
