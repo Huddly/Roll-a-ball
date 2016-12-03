@@ -30,7 +30,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void SetupObjects() {
-		objects = new MovingObject[1];
+		objects = new MovingObject[3];
 		objects[0] = new BallObject("ball1");
+		objects[1] = new PlayerObject("player1");
+		objects[2] = new PlayerObject("player2");
 	}
 }
