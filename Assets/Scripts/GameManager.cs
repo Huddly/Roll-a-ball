@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
 
 		DontDestroyOnLoad(gameObject);
-		positionHandler = new PositionHandler();
+		positionHandler = new RandomPositionHandler();
 		SetupObjects();
 	}
 
