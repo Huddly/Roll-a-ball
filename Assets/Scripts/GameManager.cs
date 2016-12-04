@@ -17,13 +17,13 @@ public class GameManager : MonoBehaviour {
 
 		DontDestroyOnLoad(gameObject);
 
+		//positionHandler = new RandomPositionHandler();
+		//positionHandler = new CsvFilePositionHandler("positions.csv");
 		positionHandler = new NetworkPositionHandler();
 
 		NetworkServer posServer = new NetworkServer((NetworkPositionHandler) positionHandler);
 		posServer.Start ();
 
-		//positionHandler = new RandomPositionHandler();
-		//positionHandler = new CsvFilePositionHandler("positions.csv");
 		SetupObjects();
 	}
 
